@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 定义栈类
+    function Stack() {
+      // 栈中的属性
+      this.items = [];
+
+      // 1、入栈
+      Stack.prototype.push = function(element) {
+        this.items.push(element);
+      }
+
+      // 2、出栈
+      Stack.prototype.pop = function() {
+        return this.items.pop();
+      }
+
+      // 3、查看栈顶
+      Stack.prototype.peek = function() {
+        return this.items[this.items.length - 1 ];
+      }
+
+      // 4、获取栈元素个数
+      Stack.prototype.size = function() {
+        return this.items.length;
+      }
+
+      // 5、判断栈是否为空
+      Stack.prototype.isEmpty = function() {
+        return this.items.length === 0;
+      }
+
+      // 6、打印栈
+      Stack.prototype.toString = function() {
+        return this.items.join(' ');
+      }
+    }
+
+    // 1、传入一个10进制数
+    // 2、10进制数 /2
+    // 3、余数压栈
+    // 4、商只要大于0就继续 /2
+    // 5、将栈中元素依次弹出连结组成二进制数
+
+    function decimal2Binary(decNum) {
+      let quotient = decNum;
+      const stack = new Stack();
+      while(quotient > 0) {
+        stack.push(quotient % 2);
+        quotient = Math.floor(quotient / 2);
+      }
+
+      let binNum = '';
+      while(!stack.isEmpty()) {
+        binNum += stack.pop();
+      }
+      
+      return binNum;
+    }
+  </script>
+</body>
+
+</html>
