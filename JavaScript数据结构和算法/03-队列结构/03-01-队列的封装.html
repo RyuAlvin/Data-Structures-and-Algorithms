@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function Queue() {
+      this.items = [];
+
+      // 1、入列
+      Queue.prototype.enqueue = function(element) {
+        this.items.push(element);
+      }
+      // 2、出列
+      Queue.prototype.dequeue = function(element) {
+        return this.items.shift();
+      }
+      // 3、获取队首
+      Queue.prototype.front = function() {
+        return this.items[0];
+      }
+      // 4、获取队列长度
+      Queue.prototype.size = function() {
+        return this.items.length;
+      }
+      // 5、判断队列是否为空
+      Queue.prototype.isEmpty = function() {
+        return this.items.length === 0;
+      }
+      // 6、打印队列
+      Queue.prototype.toString = function() {
+        return this.items.join(' ');
+      }
+    }
+
+    const queue = new Queue();
+    queue.enqueue(12);
+    queue.enqueue(2);
+    queue.enqueue(100);
+    queue.enqueue(80);
+    queue.enqueue(77);
+
+    alert(queue);
+  </script>
+</body>
+</html>
