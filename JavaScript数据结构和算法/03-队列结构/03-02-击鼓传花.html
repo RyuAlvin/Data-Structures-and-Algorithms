@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    function Queue() {
+      this.items = [];
+
+      // 1、入列
+      Queue.prototype.enqueue = function (element) {
+        this.items.push(element);
+      }
+      // 2、出列
+      Queue.prototype.dequeue = function (element) {
+        return this.items.shift();
+      }
+      // 3、获取队首
+      Queue.prototype.front = function () {
+        return this.items[0];
+      }
+      // 4、获取队列长度
+      Queue.prototype.size = function () {
+        return this.items.length;
+      }
+      // 5、判断队列是否为空
+      Queue.prototype.isEmpty = function () {
+        return this.items.length === 0;
+      }
+      // 6、打印队列
+      Queue.prototype.toString = function () {
+        return this.items.join(' ');
+      }
+    }
+
+    // function passGame(queue, num) {
+    //   while(queue.size() > 1) {
+    //     for (let i = 0; i < num; i++) {
+    //       let target = queue.dequeue();
+    //       if(i !== num - 1) {
+    //         queue.enqueue(target);
+    //       }
+    //     }
+    //   }
+
+    //   console.log(queue.front());
+    // }
+
+    const namesList = ['ryu', 'alvin', 'tom', 'gary', 'miyu'];
+
+    // 1、传入名字清单和游戏数字
+    // 2、将名字清单添加至队列
+    // 3、队列长度大于1则执行以下循环
+    //    3-1、fori循环至num-1
+    //          出列元素再入列
+    //    3-2、出列
+    // 4、打印长度
+    // 5、获取队首
+    // 6、获取队首在原清单中的位置
+
+    function passGame(namesList, num) {
+      const queue = new Queue();
+
+      for (let i = 0; i < namesList.length; i++) {
+        queue.enqueue(namesList[i]);
+      }
+
+      while (queue.size() > 1) {
+        for (let i = 0; i < num - 1; i++) {
+          queue.enqueue(queue.dequeue());
+        }
+
+        queue.dequeue();
+      }
+
+      console.log('长度：', queue.size());
+      console.log('队首：', queue.front());
+      console.log('在原名字清单中的位置：', namesList.indexOf(queue.front()));
+    }
+  </script>
+</body>
+
+</html>
