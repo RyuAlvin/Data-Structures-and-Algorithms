@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    /**
+     * 1、优先级队列定义
+     * 2、内部元素类定义，元素内容 + 优先级
+     * 3、入列
+     *    3-1、队列为空，则直接入列
+     *    3-2、队列不为空，则循环队列
+     *          插入元素的优先级小于当前循环中元素的优先级，则在当前循环中元素的位置前入列
+     *    3-3、若循环过程中并未入列，说明优先级位于最末位，则在最末尾直接入列
+     * 4、出列
+     * 5、获取队首
+     * 6、获取队列大小
+     * 7、判断队列是否为空
+     * 8、打印队列
+     */
+
+    function PriorityQueue() {
+      this.items = [];
+
+      function Element(content, priority) {
+        this.content = content;
+        this.priority = priority;
+      }
+
+      // 入列
+      PriorityQueue.prototype.enqueue = function (content, priority) {
+        const target = new Element(content, priority);
+
+        if (this.isEmpty()) {
+          this.items.push(target);
+        } else {
+          let added = false;
+
+          for (let i = 0; i < this.items.length; i++) {
+            if (target.priority < this.items[i].priority) {
+              this.items.splice(i, 0, target);
+              added = true;
+              break;
+            }
+          }
+
+          if (!added) {
+            this.items.push(target);
+          }
+        }
+      }
+
+      // 出列
+      PriorityQueue.prototype.dequeue = function (element) {
+        return this.items.shift();
+      }
+      // 获取队首
+      PriorityQueue.prototype.front = function () {
+        return this.items[0];
+      }
+      // 获取队列长度
+      PriorityQueue.prototype.size = function () {
+        return this.items.length;
+      }
+      // 判断队列是否为空
+      PriorityQueue.prototype.isEmpty = function () {
+        return this.items.length === 0;
+      }
+      // 打印队列
+      PriorityQueue.prototype.toString = function () {
+        alert(this.items.map(val => val.content + ' ' + val.priority).join(' '));
+      }
+    }
+
+    const pq = new PriorityQueue();
+    pq.enqueue('ryu', 100);
+    pq.enqueue('alvin', 80);
+    pq.enqueue('lucy', 95);
+    pq.enqueue('miyu', 70);
+    pq.enqueue('tom', 99);
+
+    pq.toString();
+  </script>
+</body>
+
+</html>
