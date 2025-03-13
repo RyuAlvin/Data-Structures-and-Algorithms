@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    function LinkedList() {
+      function Node(data) {
+        this.data = data;
+        this.next = null;
+      }
+
+      this.head = null;
+      this.length = 0;
+
+      /**
+       * 增：append(data)
+       * append的时机：next为空的时候
+       */
+      LinkedList.prototype.append = function (data) {
+        // 创建新节点
+        const newNode = new Node(data);
+        // 链表长度为0
+        if (this.length === 0) {
+          this.head = newNode;
+        } else {
+          // 当前元素：初始化指向head
+          let current = this.head;
+          while (current.next) {
+            // next不为空的时候，就做next替换成current的操作
+            current = current.next;
+          }
+          // 追加新节点
+          current.next = newNode;
+        }
+        // 节点长度更新
+        this.length++;
+        // 方便链式调用
+        return this;
+      }
+      /**
+       * 增：insert(data, position)
+       * insert的时机：index===position
+       */
+      LinkedList.prototype.insert = function (data, position) {
+        if (position < 0 || position > 3) return false;
+
+        const newNode = new Node(data);
+        if (position === 0) {
+          newNode.next = this.head;
+          this.head = newNode;
+        } else {
+          // 长度3，index=0，1，2
+          let index = 0;
+          let prev = null;
+          let current = this.head;
+          while (index++ < position) {
+            prev = current;
+            current = current.next;
+          }
+          newNode.next = current;
+          prev.next = newNode;
+        }
+
+        this.length++;
+        return true;
+      }
+      /**
+       * 删：removeAt(position)
+       */
+      LinkedList.prototype.removeAt = function (position) {
+        const result = this.get(position);
+        if (!result) return null;
+
+        if (result.prev) {
+          result.prev.next = result.current.next;
+        } else {
+          this.head = result.current.next;
+        }
+        this.length--;
+
+        return result.current;
+      }
+      /**
+       * 删：remove(data)
+       */
+      LinkedList.prototype.remove = function (data) {
+        const result = this.indexOf(data);
+        if (result.index === -1) return null;
+
+        if (result.prev) {
+          result.prev.next = result.current.next;
+        } else {
+          this.head = result.current.next;
+        }
+        this.length--;
+
+        return result.current;
+      }
+      /**
+       * 改：update(data, position)
+       */
+      LinkedList.prototype.update = function (data, position) {
+        const result = this.get(position);
+        if (!result) return false;
+
+        result.current.data = data;
+        return true;
+      }
+
+      /**
+       * 查：toString
+       * 遍历每个节点，拼接data
+       */
+      LinkedList.prototype.toString = function () {
+        let result = '';
+        let current = this.head;
+        while (current.next) {
+          result += current.data + ' ';
+          current = current.next;
+        }
+        result += current.data;
+        return result;
+      }
+      /**
+       * 查：get(position)
+       */
+      LinkedList.prototype.get = function (position) {
+        // 长度3，index=0，1，2
+        if (position < 0 || position >= this.length) return null;
+
+        let index = 0;
+        let prev = null;
+        let current = this.head;
+
+        while (index < position) {
+          prev = current;
+          current = current.next;
+          index += 1;
+        }
+
+        return { index, prev, current };
+      }
+      /**
+       * 查：indexOf(data)
+       */
+      LinkedList.prototype.indexOf = function (data) {
+        let index = 0;
+        let prev = null;
+        let current = this.head
+        while (index < this.length) {
+          if (data === current.data) {
+            // 存在返回索引，prev，current
+            return { index, prev, current }
+          }
+          prev = current;
+          current = current.next;
+          index++;
+        }
+        // 不存在返回-1
+        return { index: -1, prev: null, current: null }
+      }
+
+      LinkedList.prototype.isEmpty = function () {
+        return this.length === 0;
+      }
+
+      LinkedList.prototype.size = function () {
+        return this.length;
+      }
+    }
+
+    const ld = new LinkedList();
+    ld.append('ryu').append('alvin').append('miyu');
+    console.log(ld.toString());
+  </script>
+</body>
+
+</html>
